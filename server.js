@@ -1,9 +1,18 @@
+// adding authentication (1-3)
+// 1. require in passport and passport-http
+// 2. set up middleware
+// 3. set up routes
+
 // external modules
 var bodyParser = require('body-parser');
 var express = require('express');
 var morgan = require('morgan');
 var methodOveride = require('method-override');
 var faker = require('faker');
+var passport = require('passport');
+// ==============1===============
+var BasicStrategy = require('passport-http').BasicStrategy; // want to use basic Authentication Strategy
+// ==============1===============
 
 // my modules
 var app = express();
@@ -21,6 +30,19 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use(methodOveride('_method'));
+
+// ==============2===============
+// start using passport middleware
+var user = { username: 'chaz', password: 'password', email: 'chaz@mail.com' };
+
+passport.use(new BasicStrategy(
+  function (username, password, done) {
+    if ( !(username === user.username && password === user.password) ) {
+      return done(null, false);
+    }
+    return done(null, user);
+  }));
+// ==============2===============
 
 // require in database
 var db = require('./models');
@@ -46,8 +68,26 @@ app.get('/', function (req, res) {
   });
 });
 
-app.get('/gallery/new', function (req, res) {
-  res.render('index', {pageTitle: 'Express Gallery'});
+// add authentication for /gallery/new
+// ***authenticated***
+app.get('/gallery/new',
+  passport.authenticate('basic', { session: false }),
+  function (req, res) {
+    res.render('index', {pageTitle: 'Express Gallery'});
+  });
+
+// ==============3===============
+app.get('/secret',
+  passport.authenticate('basic', { session: false }),
+  function (req, res) {
+    res.json(req.user);
+  });
+// ==============3===============
+
+// adding logout
+app.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
 });
 
 app.post('/gallery', function (req, res) {
@@ -66,17 +106,21 @@ app.get('/gallery/:id', function (req, res) {
   });
 });
 
-app.get('/gallery/:id/edit', function (req, res) {
-  var id = req.params.id;
+// add authentication for /gallery/:id/edit
+// ***authenticated***
+app.get('/gallery/:id/edit',
+  passport.authenticate('basic', { session: false }),
+  function (req, res) {
+    var id = req.params.id;
 
-  Gallery.find({
-    where: {
-      id: id
-    }
-  }).then(function (gallery) {
-    res.render('edit', {id: id});
+    Gallery.find({
+      where: {
+        id: id
+      }
+    }).then(function (galler) {
+      res.render('edit', {id: id});
+    });
   });
-});
 
 app.put('/gallery/:id', function (req, res) {
 
