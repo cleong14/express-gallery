@@ -87,6 +87,7 @@ app.get('/secret',
 // adding logout
 app.get('/logout', function (req, res) {
   req.logout();
+  res.removeHeader('Authorization');
   res.redirect('/');
 });
 
@@ -117,7 +118,7 @@ app.get('/gallery/:id/edit',
       where: {
         id: id
       }
-    }).then(function (galler) {
+    }).then(function (gallery) {
       res.render('edit', {id: id});
     });
   });
