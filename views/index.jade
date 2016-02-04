@@ -1,0 +1,15 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+  body
+    h1 New Photos Form
+    form(method="POST", action="/gallery")
+      h2 Author
+      input(type="text", name="author")
+      h2 URL
+      input(type="text", name="link")
+      h2 Description
+      textarea(type="text", name="description")
+      input(type="submit")
+    h1 #{output}

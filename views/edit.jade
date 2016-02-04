@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+  head
+    title Edit Photo
+    //- '/' makes the path relative, no '/' means absolute path
+    link(rel="stylesheet", href="/styles/styles.css")
+  body
+    h1 Edit Photo
+    form(method="POST", action="/gallery/#{id}?_method=PUT")
+      h2 Author
+      input(type="text", name="author")
+      h2 URL
+      input(type="text", name="link")
+      h2 Description
+      textarea(type="text", name="description")
+      input(type="submit", value="Edit Gallery #{id}")
+    //- h3 #{output}
+    h1 Delete Photo
+    form(method="POST", action="/gallery/#{id}?_method=DELETE")
+      input(type="submit" value="DELETE gallery/#{id}")

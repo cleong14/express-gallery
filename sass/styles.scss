@@ -1,0 +1,29 @@
+// PROCESS
+// 0. Import reset file
+// 1. Set basic variables & media query ranges
+// 2. Style large blocks with bg colors for layout
+// 3. Get general layout elements (block) sized for all media queries
+// 4. Modify general layout elements with &
+// 5. Secondary features grid (S --> L)
+// 6. Typography & Image Sizes
+// 7. Refactor the SCSS to make it dryer & simpler.
+// 8. Set variables for common values.
+
+// ***RESETS & FRAMEWORKS***
+@import "partials/reset";
+
+* {
+  box-sizing: border-box;
+}
+
+// MEDIA QUERY RANGES
+$medium: "only screen and (min-width:600px)";
+$large: "only screen and (min-width:900px)";
+
+body {
+  background-color: red;
+}
+
+h1 {
+  background-color: red;
+}
