@@ -65,7 +65,7 @@ passport.use(new LocalStrategy(
     var isAuthenticated = authenticate(username, password);
 
     if(!isAuthenticated) { // not authenticated
-      return done(null. false);
+      return done(null, false);
     }
     return done(null, user); // authenticated
   }));
