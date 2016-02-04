@@ -11,6 +11,8 @@
     "gulp-connect": "^2.3.1",
     "gulp-sass": "^2.1.1",
     "jade": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
     "pg": "^4.4.3",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.17.3"
