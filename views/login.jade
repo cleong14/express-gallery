@@ -2,11 +2,12 @@ doctype html
 html(lang="en")
   head
     title Login
+    link(rel="stylesheet", href="styles/styles.css")
   body
     h1 Login
     form(method="POST", action="login")
       h2 Username
       input(type="text", name="username")
       h2 Password
-      input(type="text", name="password")
+      input(type="password", name="password")
       input(type="submit")

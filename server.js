@@ -3,7 +3,12 @@
 // 2. set up middleware
 // 3. set up routes
 
-// adding local authentication (4-)
+// adding local authentication (4-9)
+// 4. require in passport-local
+// 5. set up middleware
+// 6. set up LocalStrategy
+// 7. serialize and deserialize user
+// 8. set up login route 
 
 // external modules
 var bodyParser = require('body-parser');
@@ -139,11 +144,20 @@ app.get('/', function (req, res) {
 
 // add authentication for /gallery/new
 // ***authenticated***
+// app.get('/gallery/new',
+//   passport.authenticate('basic', { session: false }),
+//   function (req, res) {
+//     res.render('index', {pageTitle: 'Express Gallery'});
+//   });
+
+// uses LOCAL STRATEGY to authenticate
 app.get('/gallery/new',
-  passport.authenticate('basic', { session: false }),
+  isAuthenticated,
+
   function (req, res) {
     res.render('index', {pageTitle: 'Express Gallery'});
-  });
+  }
+);
 
 // ==============3===============
 // app.get('/secret',
@@ -154,13 +168,13 @@ app.get('/gallery/new',
 // ==============3===============
 
 // ==============9===============
-  app.get('/secret',
-    isAuthenticated,
+  // app.get('/secret',
+  //   isAuthenticated,
 
-    function (req, res) {
-      res.render('secret');
-    }
-  );
+  //   function (req, res) {
+  //     res.render('secret');
+  //   }
+  // );
 // ==============9===============
 
 // adding logout
@@ -188,8 +202,25 @@ app.get('/gallery/:id', function (req, res) {
 
 // add authentication for /gallery/:id/edit
 // ***authenticated***
+// app.get('/gallery/:id/edit',
+//   passport.authenticate('basic', { session: false }),
+//   function (req, res) {
+//     var id = req.params.id;
+
+//     Gallery.find({
+//       where: {
+//         id: id
+//       }
+//     }).then(function (gallery) {
+//       res.render('edit', {id: id});
+//     });
+//   }
+// );
+
+// used LOCAL STRATEGY to authenticate
 app.get('/gallery/:id/edit',
-  passport.authenticate('basic', { session: false }),
+  isAuthenticated,
+
   function (req, res) {
     var id = req.params.id;
 
@@ -200,7 +231,8 @@ app.get('/gallery/:id/edit',
     }).then(function (gallery) {
       res.render('edit', {id: id});
     });
-  });
+  }
+);
 
 app.put('/gallery/:id', function (req, res) {
 

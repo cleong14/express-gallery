@@ -3,6 +3,7 @@ html(lang="en")
 head
   meta(charset="UTF-8")
   title Delete Form
+  link(rel="stylesheet", href="styles/styles.css")
 body
   form(method="POST", action="/gallery/#{id}?_method=DELETE")
     input(type="submit" value="DELETE gallery/#{id}")
