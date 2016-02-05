@@ -10,6 +10,10 @@
 // 7. serialize and deserialize user
 // 8. set up login route 
 
+// create user using sequelize/postgres (10-)
+// 10. require in sequelize connector
+// 11. sync models with database
+
 // external modules
 var bodyParser = require('body-parser');
 var express = require('express');
@@ -26,6 +30,14 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var session = require('express-session');
 var CONFIG = require('./config/config.json');
+
+// ==============10===============
+var db = require('./models');
+// ==============10===============
+
+// ==============11===============
+db.sequelize.sync();
+// ==============11===============
 
 // my modules
 var app = express();
@@ -272,4 +284,3 @@ app.delete('/gallery/:id', function (req, res) {
 app.listen(3000, function () {
   db.sequelize.sync();
 });
-

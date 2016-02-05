@@ -5,10 +5,10 @@ var faker = require('faker');
 module.exports = {
   up: function (queryInterface, Sequelize) {
     for (var i = 0; i < 10; i++) {
-      return queryInterface.bulkInsert('Gallery', [
+      return queryInterface.bulkInsert('Galleries', [
       {
         author: faker.name.firstName(),
-        link: faker.image.imageURL(),
+        link: faker.image.cats(),
         description: faker.lorem.sentences(),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -18,6 +18,6 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('Galleries', null, {});
   }
 };
