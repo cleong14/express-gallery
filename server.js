@@ -33,6 +33,7 @@ var CONFIG = require('./config/config.json');
 
 // ==============10===============
 var db = require('./models');
+var User = db.User;
 // ==============10===============
 
 // ==============11===============
@@ -65,7 +66,7 @@ app.use(methodOveride('_method'));
 
 // ==============2===============
 // start using passport middleware
-var user = { username: 'chaz', password: 'password', email: 'chaz@mail.com' };
+// var user = { username: 'chaz', password: 'password', email: 'chaz@mail.com' };
 
 // passport.use(new BasicStrategy(
 //   function (username, password, done) {
@@ -79,12 +80,23 @@ var user = { username: 'chaz', password: 'password', email: 'chaz@mail.com' };
 // ==============6===============
 passport.use(new LocalStrategy(
   function (username, password, done) {
-    var isAuthenticated = authenticate(username, password);
-
-    if(!isAuthenticated) { // not authenticated
-      return done(null, false);
-    }
-    return done(null, user); // authenticated
+    // links to model database
+    // finds user that matches username and password thats passed in
+    User.find({ // find without anything returns everything
+      where: { // must be lowercase in order sequelize to recogenize; 'where' is a keyword, now 'Where'
+        username: username
+      }
+    }).
+    then(function (user) {
+      // if cannot find user
+      if(!user) { // not authenticated
+        return done(null, false);
+      }
+      // if user is found
+      if (user.password === password) {
+        return done(null, user); // authenticated  
+      }
+    });
   }));
 // ==============6===============
 
@@ -112,14 +124,14 @@ app.post('/login',
   })
 );
 
-function authenticate (username, password) {
-  var CREDENTIALS = CONFIG.CREDENTIALS;
-  var USERNAME = CREDENTIALS.USERNAME;
-  var PASSWORD = CREDENTIALS.PASSWORD;
+// function authenticate (username, password) {
+//   var CREDENTIALS = CONFIG.CREDENTIALS;
+//   var USERNAME = User.USERNAME;
+//   var PASSWORD = User.PASSWORD;
 
-  return (username === USERNAME &&
-          password === PASSWORD);
-}
+//   return (username === USERNAME &&
+//           password === PASSWORD);
+// }
 
 function isAuthenticated (req, res, next) {
   // if not the return value of isAuthenticated();
@@ -129,9 +141,6 @@ function isAuthenticated (req, res, next) {
   return next();
 }
 // ==============8===============
-
-// require in database
-var db = require('./models');
 
 // var represents the filepath
 var Gallery = db.Gallery;
