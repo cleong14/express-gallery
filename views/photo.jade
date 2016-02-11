@@ -1,0 +1,13 @@
+doctype html
+html(lang="en")
+  head
+    title Photo
+    link(rel="stylesheet", href="styles/styles.css")
+  body
+    h1 Your Photo
+    //- photo is like var key in prop
+    //- galleries linked to galleries in server.js
+    p #{photo.author}
+    p #{photo.description}
+    div
+      img(src=photo.link)
